@@ -181,7 +181,7 @@ function list_files(path, files) {
       }
       var ext = p.split(".").pop();
       if (
-        "|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mkv|bmp|jpg|jpeg|png|gif|".indexOf(
+        "|html|php|css|go|java|js|json|txt|sh|md|bmp|jpg|jpeg|png|gif|".indexOf(
           `|${ext}|`.toLowerCase()
         ) >= 0
       ) {
