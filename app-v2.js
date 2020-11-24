@@ -7,6 +7,9 @@
  */
 // 在head 中 加载 必要静态
 document.write(
+  '<link rel="shortcut icon" href="//static.tamersunion.net/wp-content/uploads/logo_tamersunion_v1.png" type="image/x-icon">'
+);
+document.write(
   '<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/tamersunion/goIndex-theme-nexmoe/css/mdui.min.css">'
 );
 document.write(
@@ -18,12 +21,6 @@ document.write(
 );
 document.write(
   "<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdui-toolbar>*{padding:0 6px;margin:0 2px}.mdui-toolbar>i{opacity:.5}.mdui-toolbar>i{padding:0}.mdui-toolbar>a:hover,a.active,a.mdui-typo-headline{opacity:1}.mdui-list-item{transition:none}.mdui-list>.th{background-color:initial}.mdui-list-item>a{width:100%;line-height:3pc}.mdui-list-item{margin:2px 0;padding:0}.mdui-toolbar>a:last-child{opacity:1}</style>"
-);
-document.write(
-  '<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/tamersunion/goIndex-theme-nexmoe/css/DPlayer.min.css">'
-);
-document.write(
-  '<script src="//cdn.jsdelivr.net/gh/tamersunion/goIndex-theme-nexmoe/js/DPlayer.min.js"></script>'
 );
 document.write(
   '<script src="//cdn.jsdelivr.net/gh/tamersunion/goIndex-theme-nexmoe/js/hls.min.js"></script>'
@@ -73,7 +70,7 @@ function title(path) {
 // 渲染导航栏
 function nav(path) {
   var html = "";
-  html += `<a href="/" class="mdui-typo-headline folder">${document.siteName}</a>`;
+  html += `<a href="/gdrive/" class="mdui-typo-headline folder">${document.siteName}</a>`;
   var arr = path.trim("/").split("/");
   var p = "/";
   if (arr.length > 0) {
@@ -83,6 +80,9 @@ function nav(path) {
       p += n + "/";
       if (n == "") {
         break;
+      }
+      if (i == 0) {
+        continue;
       }
       html += `<i class="mdui-icon material-icons mdui-icon-dark folder" style="margin:0;">chevron_right</i><a class="folder" href="${p}">${n}</a>`;
     }
@@ -293,83 +293,7 @@ function file_code(path) {
   });
 }
 
-// 文件展示 mp4
-function file_video(path) {
-  var url = window.location.origin + path;
-  var content = `
-<div class="mdui-container-fluid mdui-m-b-5">
-    <br>
-	<div class="mdui-center" id="dplayer">
-	</div>
-	<br>
-	<!-- 固定标签 -->
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">下载地址</label>
-	  <input class="mdui-textfield-input" type="text" value="${url}"/>
-	</div>
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">引用地址</label>
-	  <textarea rows="0" class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
-	</div>
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label mdui-m-b-3">播放地址</label>
-      <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="videoPlay('${url}','mp4');">MP4</button>
-      <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="videoPlay('${url}','hls');">HLS</button>
-	</div>
-</div>
-<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
-	`;
-  $("#content").html(content);
-
-  let urlPath = url.substring(0, url.lastIndexOf("/"));
-  let fileName = url.substr(url.lastIndexOf("/"));
-  hlsUrl = urlPath + "/hls" + fileName + "/index.m3u8";
-  const dp = new DPlayer({
-    container: document.getElementById("dplayer"),
-    video: {
-      quality: [
-        {
-          name: "MP4",
-          url: url,
-          type: "normal"
-        },
-        {
-          name: "HLS",
-          url: hlsUrl,
-          type: "hls"
-        }
-      ],
-      autoplay: true,
-      defaultQuality: 0
-    }
-  });
-}
-function videoPlay(url, type) {
-  let defaultQuality = 0;
-  if (type == "hls") {
-    defaultQuality = 1;
-  }
-  dp = new DPlayer({
-    container: document.getElementById("dplayer"),
-    video: {
-      quality: [
-        {
-          name: "MP4",
-          url: url,
-          type: "normal"
-        },
-        {
-          name: "HLS",
-          url: hlsUrl,
-          type: "hls"
-        }
-      ],
-      autoplay: true,
-      defaultQuality: defaultQuality
-    }
-  });
-}
-//
+// 文件展示
 function file_image(path) {
   var url = window.location.origin + path;
   var content = `
